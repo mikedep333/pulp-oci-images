@@ -2,10 +2,15 @@ FROM quay.io/centos/centos:stream8
 # https://ryandaniels.ca/blog/docker-dockerfile-arg-from-arg-trouble/
 ARG SCHEME="http"
 
-COPY s6-overlay-amd64.tar.gz /tmp
+COPY s6-overlay-x86_64.tar.gz /tmp
+COPY s6-overlay-noarch.tar.gz /tmp
+COPY s6-overlay-symlinks-noarch.tar.gz /tmp
+COPY s6-overlay-symlinks-arch.tar.gz /tmp
 
-RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude="./bin" && \
-    tar xzf /tmp/s6-overlay-amd64.tar.gz -C /usr ./bin
+RUN tar xzf /tmp/s6-overlay-x86_64.tar.gz -C /
+RUN tar xvf /tmp/s6-overlay-noarch.tar.gz -C /
+RUN tar xvf /tmp/s6-overlay-symlinks-noarch.tar.gz -C /
+RUN tar xvf /tmp/s6-overlay-symlinks-arch.tar.gz -C /
 
 # https://superuser.com/questions/959380/how-do-i-install-generate-all-locales-on-fedora
 # This may not be necessary anymore because Fedora 30, unlike CentOS 7, has
@@ -84,6 +89,7 @@ RUN mkdir -p /database \
 RUN pip3 install --upgrade pip packaging setproctitle && \
     rm -rf /root/.cache/pip
 
+RUN mkdir /etc/fix-attrs.d
 RUN echo "/var/lib/pgsql true postgres 0600 0750" >> /etc/fix-attrs.d/postgres
 
 COPY assets/openssl.cnf /etc/ssl/pulp/openssl.cnf
