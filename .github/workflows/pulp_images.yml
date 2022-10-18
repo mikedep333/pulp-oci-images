@@ -78,29 +78,28 @@ jobs:
         env:
           PY_COLORS: '1'
       - name: Push images
-        if: github.event_name != 'pull_request'
         env:
           QUAY_BOT_PASSWORD: ${{ secrets.QUAY_BOT_PASSWORD }}
           QUAY_BOT_USERNAME: ${{ secrets.QUAY_BOT_USERNAME }}
         run: |
           echo "$QUAY_BOT_PASSWORD" | podman login -u "$QUAY_BOT_USERNAME" --password-stdin quay.io
-          podman tag pulp/base:latest quay.io/pulp/base:latest
-          podman tag pulp/pulp-minimal:${{ matrix.image_tag_1 }} quay.io/pulp/pulp-minimal:${{ matrix.image_tag_1 }}
-          podman tag pulp/pulp-minimal:${{ matrix.image_tag_1 }} quay.io/pulp/pulp-minimal:${{ matrix.image_tag_2 }}
-          podman tag pulp/pulp-web:${{ matrix.image_tag_1 }} quay.io/pulp/pulp-web:${{ matrix.image_tag_1 }}
-          podman tag pulp/pulp-web:${{ matrix.image_tag_1 }} quay.io/pulp/pulp-web:${{ matrix.image_tag_2 }}
-          podman push quay.io/pulp/base:latest
-          podman push quay.io/pulp/pulp-minimal:${{ matrix.image_tag_1 }}
-          podman push quay.io/pulp/pulp-minimal:${{ matrix.image_tag_2 }}
-          podman push quay.io/pulp/pulp-web:${{ matrix.image_tag_1 }}
-          podman push quay.io/pulp/pulp-web:${{ matrix.image_tag_2 }}
+          podman tag pulp/base:latest quay.io/mikedep333/base:latest
+          podman tag pulp/pulp-minimal:${{ matrix.image_tag_1 }} quay.io/mikedep333/pulp-minimal:${{ matrix.image_tag_1 }}
+          podman tag pulp/pulp-minimal:${{ matrix.image_tag_1 }} quay.io/mikedep333/pulp-minimal:${{ matrix.image_tag_2 }}
+          podman tag pulp/pulp-web:${{ matrix.image_tag_1 }} quay.io/mikedep333/pulp-web:${{ matrix.image_tag_1 }}
+          podman tag pulp/pulp-web:${{ matrix.image_tag_1 }} quay.io/mikedep333/pulp-web:${{ matrix.image_tag_2 }}
+          podman push quay.io/mikedep333/base:latest
+          podman push quay.io/mikedep333/pulp-minimal:${{ matrix.image_tag_1 }}
+          podman push quay.io/mikedep333/pulp-minimal:${{ matrix.image_tag_2 }}
+          podman push quay.io/mikedep333/pulp-web:${{ matrix.image_tag_1 }}
+          podman push quay.io/mikedep333/pulp-web:${{ matrix.image_tag_2 }}
           if [[ "$IMAGE_TAG" == "stable" ]]; then
-            CURRENT_VERSION=$(podman run quay.io/pulp/pulp-minimal:stable bash -c 'pip3 show pulpcore | sed -n -e "s/Version: //p"')
+            CURRENT_VERSION=$(podman run quay.io/mikedep333/pulp-minimal:stable bash -c 'pip3 show pulpcore | sed -n -e "s/Version: //p"')
             echo $CURRENT_VERSION
-            podman tag quay.io/pulp/pulp-minimal:${{ matrix.image_tag_1 }} quay.io/pulp/pulp-minimal:$CURRENT_VERSION
-            podman tag quay.io/pulp/pulp-web:${{ matrix.image_tag_1 }} quay.io/pulp/pulp-web:$CURRENT_VERSION
-            podman push quay.io/pulp/pulp-minimal:$CURRENT_VERSION
-            podman push quay.io/pulp/pulp-web:$CURRENT_VERSION
+            podman tag quay.io/mikedep333/pulp-minimal:${{ matrix.image_tag_1 }} quay.io/mikedep333/pulp-minimal:$CURRENT_VERSION
+            podman tag quay.io/mikedep333/pulp-web:${{ matrix.image_tag_1 }} quay.io/mikedep333/pulp-web:$CURRENT_VERSION
+            podman push quay.io/mikedep333/pulp-minimal:$CURRENT_VERSION
+            podman push quay.io/mikedep333/pulp-web:$CURRENT_VERSION
           fi
           echo $CURRENT_VERSION
       - name: Logs
@@ -183,35 +182,34 @@ jobs:
         env:
           PY_COLORS: '1'
       - name: Push images
-        if: github.event_name != 'pull_request'
         env:
           QUAY_BOT_PASSWORD: ${{ secrets.QUAY_BOT_PASSWORD }}
           QUAY_BOT_USERNAME: ${{ secrets.QUAY_BOT_USERNAME }}
         run: |
           echo "$QUAY_BOT_PASSWORD" | podman login -u "$QUAY_BOT_USERNAME" --password-stdin quay.io
-          podman tag pulp/base:latest quay.io/pulp/base:latest
-          podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/pulp/galaxy-minimal:${{ matrix.image_tag_1 }}
-          podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/pulp/galaxy-minimal:${{ matrix.image_tag_2 }}
-          podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/pulp/galaxy:${{ matrix.image_tag_1 }}
-          podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/pulp/galaxy:${{ matrix.image_tag_2 }}
-          podman tag pulp/galaxy-web:${{ matrix.image_tag_1 }} quay.io/pulp/galaxy-web:${{ matrix.image_tag_1 }}
-          podman tag pulp/galaxy-web:${{ matrix.image_tag_1 }} quay.io/pulp/galaxy-web:${{ matrix.image_tag_2 }}
-          podman push quay.io/pulp/base:latest
-          podman push quay.io/pulp/galaxy-minimal:${{ matrix.image_tag_1 }}
-          podman push quay.io/pulp/galaxy-minimal:${{ matrix.image_tag_2 }}
-          podman push quay.io/pulp/galaxy:${{ matrix.image_tag_1 }}
-          podman push quay.io/pulp/galaxy:${{ matrix.image_tag_2 }}
-          podman push quay.io/pulp/galaxy-web:${{ matrix.image_tag_1 }}
-          podman push quay.io/pulp/galaxy-web:${{ matrix.image_tag_2 }}
+          podman tag pulp/base:latest quay.io/mikedep333/base:latest
+          podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/mikedep333/galaxy-minimal:${{ matrix.image_tag_1 }}
+          podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/mikedep333/galaxy-minimal:${{ matrix.image_tag_2 }}
+          podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/mikedep333/galaxy:${{ matrix.image_tag_1 }}
+          podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/mikedep333/galaxy:${{ matrix.image_tag_2 }}
+          podman tag pulp/galaxy-web:${{ matrix.image_tag_1 }} quay.io/mikedep333/galaxy-web:${{ matrix.image_tag_1 }}
+          podman tag pulp/galaxy-web:${{ matrix.image_tag_1 }} quay.io/mikedep333/galaxy-web:${{ matrix.image_tag_2 }}
+          podman push quay.io/mikedep333/base:latest
+          podman push quay.io/mikedep333/galaxy-minimal:${{ matrix.image_tag_1 }}
+          podman push quay.io/mikedep333/galaxy-minimal:${{ matrix.image_tag_2 }}
+          podman push quay.io/mikedep333/galaxy:${{ matrix.image_tag_1 }}
+          podman push quay.io/mikedep333/galaxy:${{ matrix.image_tag_2 }}
+          podman push quay.io/mikedep333/galaxy-web:${{ matrix.image_tag_1 }}
+          podman push quay.io/mikedep333/galaxy-web:${{ matrix.image_tag_2 }}
           if [[ "$IMAGE_TAG" == "stable" ]]; then
-            CURRENT_VERSION=$(podman run quay.io/pulp/galaxy-minimal:stable bash -c 'pip3 show galaxy_ng | sed -n -e "s/Version: //p"')
+            CURRENT_VERSION=$(podman run quay.io/mikedep333/galaxy-minimal:stable bash -c 'pip3 show galaxy_ng | sed -n -e "s/Version: //p"')
             echo $CURRENT_VERSION
-            podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/pulp/galaxy-minimal:$CURRENT_VERSION
-            podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/pulp/galaxy:$CURRENT_VERSION
-            podman tag pulp/galaxy-web:${{ matrix.image_tag_1 }} quay.io/pulp/galaxy-web:$CURRENT_VERSION
-            podman push quay.io/pulp/galaxy-minimal:$CURRENT_VERSION
-            podman push quay.io/pulp/galaxy:$CURRENT_VERSION
-            podman push quay.io/pulp/galaxy-web:$CURRENT_VERSION
+            podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/mikedep333/galaxy-minimal:$CURRENT_VERSION
+            podman tag pulp/galaxy-minimal:${{ matrix.image_tag_1 }} quay.io/mikedep333/galaxy:$CURRENT_VERSION
+            podman tag pulp/galaxy-web:${{ matrix.image_tag_1 }} quay.io/mikedep333/galaxy-web:$CURRENT_VERSION
+            podman push quay.io/mikedep333/galaxy-minimal:$CURRENT_VERSION
+            podman push quay.io/mikedep333/galaxy:$CURRENT_VERSION
+            podman push quay.io/mikedep333/galaxy-web:$CURRENT_VERSION
           fi
       - name: Logs
         if: always()
